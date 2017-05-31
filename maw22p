@@ -1,7 +1,9 @@
+#include <memory.h>
+
 #define P_MAX 200	//maximum pattern length
-#define V_MAX 20000 //maximum size of pointer and shift arrays
+#define V_MAX 20000 	//maximum size of pointer and shift arrays
 #define SIGMA 8		//alphabet size
-#define LOG_SIGMA 3 //logarithm of alphabet size
+#define LOG_SIGMA 3 	//logarithm of alphabet size
 
 //memory fill function - a bytes pointed by c are repeated until c[0..b] is filled
 void mem_fill_int(int a, int b, unsigned char* c) {
@@ -17,9 +19,8 @@ void mem_fill_int(int a, int b, unsigned char* c) {
 int MAW22P(unsigned char *x, int m, unsigned char *y, int n) {
 	int ***V0[V_MAX], **V1[V_MAX], *V2[V_MAX], V3[V_MAX]; //V3 - shift array; V0, V1, V2 - pointers arrays
 	int D[P_MAX], D_[P_MAX], BR_[SIGMA][SIGMA];
-	int pos, r, k, count = 0, mp1 = m + 1, mp2 = m + 2, mp21 = 2 * m + 1, mp22 = 2 * m + 2, mm1 = m - 1, mm2 = m - 2, m2 = 2 * m, int_size = sizeof(int);
+	int pos, r, k, count, mp1 = m + 1, mp2 = m + 2, mp21 = 2 * m + 1, mp22 = 2 * m + 2, mm1 = m - 1, mm2 = m - 2, m2 = 2 * m, int_size = sizeof(int);
 	
-	QueryPerformanceCounter(&start);
 //Preprocessing
 	// Build BMH shift table D and modified BMH shift table D_
 	for (int i = 0; i < SIGMA; i++)
@@ -40,11 +41,11 @@ int MAW22P(unsigned char *x, int m, unsigned char *y, int n) {
 	
 	//Initial fill V0 with the address V1, V1 with the address V2, V2 with the address V3
 	V0[0] = V1; 
-	mem_fill_int(sizeof(int*), V_MAX, (unsigned char*)V0);
+	mem_fill_int(int_size, V_MAX, (unsigned char*)V0);
 	V1[0] = V2;
-	mem_fill_int(sizeof(int*), V_MAX, (unsigned char*)V1);
+	mem_fill_int(int_size, V_MAX, (unsigned char*)V1);
 	V2[0] = V3;
-	mem_fill_int(sizeof(int*), V_MAX, (unsigned char*)V2);
+	mem_fill_int(int_size, V_MAX, (unsigned char*)V2);
 	
 	// Filling V0 with pointers to chunks of V1
 	for (int i = 0; i < mm1; i++)
@@ -104,8 +105,5 @@ int MAW22P(unsigned char *x, int m, unsigned char *y, int n) {
 		else
 			pos += r;
 	}
-	QueryPerformanceCounter(&_end);
-	u = (_end.QuadPart - start.QuadPart) * 1000000 / freq.QuadPart;
-	sum_maw22p += u;
 	return count;
 }
