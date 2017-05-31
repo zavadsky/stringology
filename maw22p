@@ -19,7 +19,8 @@ void mem_fill_int(int a, int b, unsigned char* c) {
 int MAW22P(unsigned char *x, int m, unsigned char *y, int n) {
 	int ***V0[V_MAX], **V1[V_MAX], *V2[V_MAX], V3[V_MAX]; //V3 - shift array; V0, V1, V2 - pointers arrays
 	int D[P_MAX], D_[P_MAX], BR_[SIGMA][SIGMA];
-	int pos, r, k, count, mp1 = m + 1, mp2 = m + 2, mp21 = 2 * m + 1, mp22 = 2 * m + 2, mm1 = m - 1, mm2 = m - 2, m2 = 2 * m, int_size = sizeof(int);
+	int pos, r, k, count, mp1 = m + 1, mp2 = m + 2, mp21 = 2 * m + 1, mp22 = 2 * m + 2, mm1 = m - 1, mm2 = m - 2, m2 = 2 * m, 
+	    int_size = sizeof(int);
 	
 //Preprocessing
 	// Build BMH shift table D and modified BMH shift table D_
