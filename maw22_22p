@@ -23,6 +23,7 @@ int MAW22(unsigned char *x, int m, unsigned char *y, int n) {
 	int D[P_MAX];
 	unsigned char* M22 = (unsigned char *)malloc(SIGMA4); // MAW22 search table
 
+// Preprocessing
 	// Build the BMH shift table D
 	for (int i = 0; i<SIGMA; i++)
 		D[i] = m;
