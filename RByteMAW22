@@ -1,0 +1,46 @@
+int RByteMAW22(unsigned char *x, const int m, unsigned char *y, int n) {
+	int mp1=m+1,mm1=m-1,mm2=m-2,m2=m*2,pos,r, count = 0;
+	unsigned char *ptr;
+	const unsigned int b=8,k=12; // b bits in byte; k significant bits in 2-byte read
+	const unsigned int sigma=1<<b,_2_power_k=(1<<k);
+	const unsigned int mask=_2_power_k-1,_2_power_k_2=_2_power_k*2;
+	unsigned char *_V0[_2_power_k],_V1[_2_power_k_2];
+	int QSR[1000];
+
+// Preprocessing
+	for (int i = 0; i < _2_power_k; i++) {				// Alg. 3 - 1
+		_V0[i] = _V1;
+		_V1[i] = 0;
+	}
+	for (int i = _2_power_k; i < _2_power_k_2; i++)		// Alg. 3 - 2
+		_V1[i] = 1;
+	for (int i = 0; i < mm1; i++)						// Alg. 3 - 3
+		_V0[(*(ushort*)(x+i))&mask] = _V1+_2_power_k;
+	for (ushort i = 0;i<(1<<(k-b)); i++)				// Alg. 3 - 4
+		_V0[(i<<b)|x[mm1]] = _V1+_2_power_k;
+	for (int i = 0; i < mm1; i++)						// Alg. 3 - 5
+		_V1[(*(ushort*)(x+i))&mask] = 1;
+	for (ushort i = 0;i<(1<<(k-b)); i++)				// Alg. 3 - 6
+		_V1[(i<<b)|x[mm1]] = 1;
+
+	for(int i=0;i<sigma;i++)				// QS reverse shift table
+		QSR[i]=mp1;
+	for(int i=m-1;i>=0;i--)
+		QSR[x[i]]=i+1;
+	
+//Search
+	memcpy(y+m,x,m);
+	pos=n-m2;
+	while (pos>m2) {
+		ptr=(uchar*)_V0[((*(unsigned short*)(y+pos+m)))&mask];
+		while(ptr[((*(unsigned short*)(y+pos)))&mask]==0) {
+			pos-=m2;
+			ptr=(uchar*)_V0[((*(unsigned short*)(y+pos+m)))&mask];
+		}
+		for (r = 0; r < m && y[pos + m + r] == x[r]; r++);	// occurrence check
+		if (r == m)
+			count++;
+		pos-=QSR[y[pos+mm1]];
+	}
+	return count;
+}
