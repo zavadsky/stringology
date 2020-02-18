@@ -5,3 +5,5 @@ maw22_22p.cpp contains 2 pattern matching algorithms: 1) with 2 adjacent search 
 RByteMAW22.cpp - MAW22 over 256-ary alphabet, little endian machine; number k of significant bits in bad-character suffixes is defined in the programm;
 
 RByteMAW22w2.cpp - RByteMAW22 with 2 sliding windows.
+
+RBitMAW22 - search in a bitstream.
