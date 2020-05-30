@@ -1,0 +1,79 @@
+// the reverse search algorithm with 2 sliding windows RZk-Byte-w2 (Alg. 5)
+//x - pattern, m - pattern length, y - text, n>=4m - text length,  k - number of significant bits in 2-byte read
+int RZk_byte_w2(unsigned char *x, const int m, unsigned char *y, int n,int k=13) {
+int mp1=m+1, mm1=m-1, mm2=m-2, m2=m*2, r, pos, count = 0;
+unsigned char *half = y+n/2, *pos1, *pos2, *pos3,*stop;
+const unsigned int b=8; // b bits in byte
+const unsigned int sigma=1<<b, _2_power_k=(1<<k);
+const unsigned int mask=_2_power_k-1, _2_power_k_2=_2_power_k*2;
+unsigned char *Z=(unsigned char *)calloc(_2_power_k,sizeof(unsigned char)),*Backup=(unsigned char *)calloc(m,sizeof(unsigned char));
+int RQS[256];
+
+//QueryPerformanceCounter(&start); // time start point, global LARGE_INTEGER start
+// Preprocessing
+  for (int i = 0; i < _2_power_k; i++)				// Alg. 4 - line 2
+		Z[i] = 1;
+	for (int i = 0; i < mm1; i++)						    // Alg. 4 - lines 3-4
+		Z[(*(ushort*)(x+i))&mask] = 0;
+	for (ushort i = 0;i<(1<<(k-b)); i++)				// Alg. 4 - lines 5-6
+		Z[(i<<b)|x[mm1]] = 0;
+
+
+	for(int i=0;i<sigma;i++)				// QS reverse shift table
+		RQS[i]=mp1;
+	for(int i=m-1;i>=0;i--)
+		RQS[x[i]]=i+1;
+
+//Search
+    memcpy(Backup,y+m,m);
+	memcpy(y+m,x,m);
+	pos1=half;
+	pos2=y+n-m;
+	stop = y+m;
+	while (pos1>stop) {
+		while(Z[((*(unsigned short*)(pos1)))&mask] & Z[((*(unsigned short*)(pos2)))&mask]) {
+			pos1-=m;
+			pos2-=m;
+        }
+		if(!Z[(*(unsigned short*)(++pos1))&mask]) {
+            pos1--;
+            for (r = 0; r < m && pos1[r] == x[r]; r++);	// occurrence check
+            if (r == m)
+                if(pos1>=y+m2)
+                    count++;
+            pos1-=RQS[*(pos1-1)];
+		} else
+            pos1-=m;
+        if(!Z[(*(unsigned short*)(++pos2))&mask]) {
+            pos2--;
+            for (r = 0; r < m && pos2[r] == x[r]; r++); // occurrence check
+            if (r == m)
+                if(pos2>half)
+                    count++;
+            pos2-=RQS[*(pos2-1)];
+        } else
+            pos2-=m;
+    }
+  //If pos1 has reached stop, but pos2 has not reached half
+	while(pos2>half){                           // Alg. 5 - lines 17-20
+		while(Z[((*(unsigned short*)(pos2)))&mask] )
+			pos2-=m;
+		for (r = 0; r < m && pos2[r] == x[r]; r++);
+		if (r == m)
+            if(pos2>half)
+                count++;
+		pos2-=RQS[*(pos2-1)];
+	}
+	memcpy(y+m,Backup,m);
+//ShortSearch in T[0...2m-1]
+	pos=m2-1;
+	do {
+		for (r = 0; r < m && y[pos + r] == x[r]; r++);	// occurrence check
+		if (r == m)
+			count++;
+		pos-=RQS[y[pos-1]];
+	} while(pos>=0);
+	//QueryPerformanceCounter(&_end);  // time end point, global LARGE_INTEGER start
+	// u = (_end.QuadPart - start.QuadPart) * 10000 / freq.QuadPart; //algorithms' time in milliseconds
+	return count;
+}
