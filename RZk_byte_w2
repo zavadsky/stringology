@@ -73,7 +73,7 @@ int RQS[256];
 			count++;
 		pos-=RQS[y[pos-1]];
 	} while(pos>=0);
-	//QueryPerformanceCounter(&_end);  // time end point, global LARGE_INTEGER start
-	// u = (_end.QuadPart - start.QuadPart) * 10000 / freq.QuadPart; //algorithms' time in milliseconds
+	//QueryPerformanceCounter(&_end);  // time end point, global LARGE_INTEGER _end
+	// u = (_end.QuadPart - start.QuadPart) * 10000 / freq.QuadPart; //algorithms' timing in milliseconds, double u
 	return count;
 }
