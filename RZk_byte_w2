@@ -6,8 +6,9 @@ unsigned char *half = y+n/2, *pos1, *pos2;
 const unsigned int b=8; // b bits in byte
 const unsigned int sigma=1<<b, _2_power_k=(1<<k);
 const unsigned int mask=_2_power_k-1, _2_power_k_2=_2_power_k*2;
+// Z is the main search table. Backup is to save the first m bytes of a text before replacement with a stop pattern
 unsigned char *Z=(unsigned char *)calloc(_2_power_k,sizeof(unsigned char)),*Backup=(unsigned char *)calloc(m,sizeof(unsigned char));
-int RQS[256];
+int RQS[sigma]; // The reverse QS shift table
 
 	// QueryPerformanceCounter(&start); // time start point, global LARGE_INTEGER start
 // Preprocessing
@@ -19,7 +20,7 @@ int RQS[256];
 		Z[(i<<b)|x[mm1]] = 0;   // Last byte of the pattern coincides with the first byte of a search window
 
 
-	for(int i=0;i<sigma;i++)				// QS reverse shift table
+	for(int i=0;i<sigma;i++)				// The reverse QS shift table filling
 		RQS[i]=mp1;
 	for(int i=m-1;i>=0;i--)
 		RQS[x[i]]=i+1;
