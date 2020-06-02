@@ -1,4 +1,5 @@
-// the reverse bitstream search algorithm with 2 sliding windows RZk-bit-w2
+// The reverse bitstream search algorithm with 2 sliding windows RZk-bit-w2
+// This is a hybrid of Alg. 5 (sliding windows) and Alg. 6 (bitstream search)
 //x - pattern, l - pattern bit length, y - text, n - text byte length,  k - number of significant bits in 2-byte read
 int RZk_bit_w2(unsigned char *x, int l, unsigned char *y, int n,int k=15) {
 const unsigned int b=8; // b bits in byte
@@ -35,7 +36,7 @@ ushort tt;
 		/*********** end Bitword **************/
 		Z[t]=0;
 		if(l-i<b2){
-			int stop=1<<(l-i>3*b-k?b2-l+i:k-b);			// stop = 2^s (lines 12-14 of Alg. 9)
+			int stop=1<<(l-i>3*b-k?b2-l+i:k-b);			// stop = 2^s (lines 9-10 of Alg. 8)
 			for(jj=0;jj<stop;jj++)
 				Z[t|(jj<<b)]=0;
 		}
@@ -45,17 +46,17 @@ ushort tt;
 	pos1=half;
 	pos2=y+n-m;
 	stop=y+m+1;
-	memcpy(Backup,y,m+1);
-	memcpy(y,x,m+1);
+	memcpy(Backup,y,m+1); // Backup the beginning of the text
+	memcpy(y,x,m+1);      // Copy the stop pattern to the beginning of the text
 	if(l>23)    // patterns longer than 23 bits
         while (pos1>stop) {
-            while(Z[((*(unsigned short*)(pos1)))&mask] & Z[((*(unsigned short*)(pos2)))&mask]) {
+            while(Z[((*(unsigned short*)(pos1)))&mask] & Z[((*(unsigned short*)(pos2)))&mask]) { // Fast loop, lines 5-6 of Alg. 6
                 pos1-=mm1;
                 pos2-=mm1;
             }
-            if(!Z[(*(unsigned short*)(++pos1))&mask]) {
-                pos1--;
-                for(int i=0;(q=lambda[*pos1][i])>=0;i++) {
+            if(!Z[(*(unsigned short*)(++pos1))&mask]) {	// Line 8 of Alg. 6 (unrolled external fast loop)
+                pos1--;						// Line 9 of Alg. 6
+                for(int i=0;(q=lambda[*pos1][i])>=0;i++) {	// Line 10 of Alg. 6
                     //********** CheckMatch(q,pos) ************
                     for(j=start=pos1-1;j-start<m && (unsigned char)(((*j)<<(b-q))|(j[1]>>q))==x[(int)(j-start)];j++);
                     if(j-start==m)
@@ -64,9 +65,9 @@ ushort tt;
                                 count++;
                     //********** end CheckMatch ************
                 }
-                pos1--;
+                pos1--;		// Line 12 + line 4 of Alg. 6
             } else
-                pos1-=mm1;
+                pos1-=mm1;	// Line 4 of Alg. 6
             if(!Z[(*(unsigned short*)(++pos2))&mask]) {
                 pos2--;
                 for(int i=0;(q=lambda[*pos2][i])>=0;i++) {
@@ -110,7 +111,7 @@ ushort tt;
             }
             pos2--;
         }
-        while(pos2>half){
+        while(pos2>half){	//If pos1 has reached the beginning of a text, but pos2 has not reached the middle position
             while(Z[((*(unsigned short*)(pos2)))&mask])
                 pos2-=mm1;
             for(int i=0;(q=lambda[*pos2][i])>=0;i++) {
@@ -125,8 +126,8 @@ ushort tt;
             pos2--;
         }
 
-	memcpy(y+m+1,Backup,m+1);
-	//ShortSearch in T[0...2m-1]
+	memcpy(y,Backup,m+1); // Restore the beginning of a text
+	//ShortSearch in T[0...m]
 	pos=m+1;
 	do {
 		for(int i=0;(q=lambda[y[pos+1]][i])>=0;i++) {
