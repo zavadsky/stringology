@@ -1,5 +1,5 @@
 // The reverse bitstream search algorithm with 2 sliding windows RZk-bit-w2
-// This is a hybrid of Alg. 5 (sliding windows) and Alg. 6 (bitstream search)
+// This is a hybrid of Alg. 5 (sliding windows) and Alg. 6-9 (bitstream search)
 //x - pattern, l - pattern bit length, y - text, n - text byte length,  k - number of significant bits in 2-byte read
 int RZk_bit_w2(unsigned char *x, int l, unsigned char *y, int n,int k=15) {
 const unsigned int b=8; // b bits in byte
@@ -18,7 +18,7 @@ ushort tt;
 // Preprocessing
 	for(jj=0;jj<b;jj++)
 		for(int i=0;i<sigma;i++)
-			lambda[i][jj]=-1;	// lambda[c][j] is the j-th element of the set lambda[c]
+			lambda[i][jj]=-1;	// lambda[c][j] is the j-th element of the set lambda[c] (line 2 of Alg. 8)
 	for(int i=0;i<b;i++) {
 		unsigned char c=(x[0]<<i)|(x[1]>>(b-i));
 		for(jj=0;lambda[c][jj]>=0;jj++);
@@ -54,7 +54,7 @@ ushort tt;
                 pos1-=mm1;
                 pos2-=mm1;
             }
-            if(!Z[(*(unsigned short*)(++pos1))&mask]) {	// Line 8 of Alg. 6 (unrolled external fast loop)
+            if(!Z[(*(unsigned short*)(++pos1))&mask]) {	// Lin 7 of Alg. 5, line 8 of Alg. 6 (unrolled external fast loop)
                 pos1--;						// Line 9 of Alg. 6
                 for(int i=0;(q=lambda[*pos1][i])>=0;i++) {	// Line 10 of Alg. 6
                     //********** CheckMatch(q,pos) ************
