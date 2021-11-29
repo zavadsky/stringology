@@ -2,7 +2,7 @@
 // This is the hybrid of Alg. 3 (left-to-right search) and Alg. 5 (sliding windows)
 // x - pattern, m - pattern length, y - text, n>=4m - text length,  k - number of significant bits in 2-byte read
 int Zk_byte_w3(unsigned char *x, const int m, unsigned char *y, int n,int k=13) {
-	int mp1=m+1, mm1=m-1, mm2=m-2, mm3=m-3, m2=m*2, r, count = 0,outs=0;
+	int mp1=m+1, mm1=m-1, mm2=m-2, mm3=m-3, m2=m*2, r, count = 0;
 	unsigned char *ptr1, *ptr2, *third = y+n/3, *twothird = y+2*n/3, *fin=y+n,*pos1, *pos2, *pos3,*stop;
 	const unsigned int b=8; // b bits in byte
 	const unsigned int sigma=1<<b, _2_power_k=(1<<k);
