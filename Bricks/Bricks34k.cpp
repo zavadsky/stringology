@@ -19,7 +19,7 @@ int Bricks34(unsigned char *P, int m, unsigned char *T, int n,int k=14) {
         Z[(P[i]+(P[i+1]<<3)+(P[i+2]<<6)+(P[i+3]<<9))&mask]=0;
 
    // Search
-   s = T+m-3;       //current position
+   s = T+m-4;       //current position
    stop = T+n-3;
    count = 0;
    memcpy(T+n,P,m);
