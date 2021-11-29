@@ -13,8 +13,6 @@ int lambda[sigma][b];
 unsigned char Backup[P_MAX];
 unsigned char *Z=(unsigned char *)calloc(_2_power_k,sizeof(unsigned char)),*pos1,*pos2,*stop,*start,*half=y+n/2,*j;
 ushort tt;
-
-	//QueryPerformanceCounter(&start_time); // time start point, global LARGE_INTEGER start_time
 // Preprocessing
 	for(jj=0;jj<b;jj++)
 		for(int i=0;i<sigma;i++)
@@ -138,7 +136,5 @@ ushort tt;
 		}
 		pos--;
 	} while(pos>=0);
-	//QueryPerformanceCounter(&_end);             // time end point, global LARGE_INTEGER _end
-	// u = (_end.QuadPart - start.QuadPart) * 10000 / freq.QuadPart; //algorithms' timing in milliseconds, double u
 	return count;
 }
