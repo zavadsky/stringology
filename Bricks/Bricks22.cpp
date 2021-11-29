@@ -1,8 +1,6 @@
 int Bricks22(unsigned char *P, int m, unsigned char *T, int n) {
 int mp1=m+1, mm1=m-1, mm2=m-2, r, count = 0;
-const unsigned int b=8; // b bits in byte
 const unsigned int _2_power_k=(1<<16);
-const unsigned int _2_power_k_2=_2_power_k*2;
 unsigned char *Z=(unsigned char *)calloc(_2_power_k,sizeof(unsigned char));
 unsigned char *s,*stop;
 int QS[256];
@@ -34,6 +32,6 @@ int QS[256];
                 count++;
         }
         s+=QS[*(s+2)];
-   }
-   return count;
+    }
+return count;
 }
