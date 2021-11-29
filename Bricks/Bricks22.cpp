@@ -22,7 +22,7 @@ int QS[256];
 
    // Search
    s = T+m-3;       //current position
-   stop = T+n;
+   stop = T+n-1;
    count = 0;
    memcpy(T+n,P,m);
    while(s<stop) {
@@ -30,7 +30,7 @@ int QS[256];
             s+=mm1;
         if(*(uint16_t*)(s-mm2)==p) {   // occurrence check;
             for (r = check_start; r < m && s[r-mm2] == P[r]; r++);
-            if (r == m)
+            if (r == m && s<stop)
                 count++;
         }
         s+=QS[*(s+2)];
