@@ -4,7 +4,7 @@ const unsigned int b=8; // b bits in byte
 const unsigned int _2_power_k=(1<<16);
 const unsigned int _2_power_k_2=_2_power_k*2, check_start=m<4?m:4;
 unsigned char *Z=(unsigned char *)calloc(_2_power_k,sizeof(unsigned char));
-unsigned char *s, *stop,Alph[4]={'A','C','G','T'};
+unsigned char *s,*stop;
 int QS[256];
     if(m<2)
         return -1;
@@ -15,7 +15,7 @@ int QS[256];
     for(int i=0;i<m;i++)
         QS[P[i]]=m-i;
     uint16_t p=*(uint16_t*)P;    // pattern in CPU register
-    for (int i = 0; i < _2_power_k; i++)						// Alg. 3 - 3
+    for (int i = 0; i < _2_power_k; i++)
 		Z[i] = 1;
     for(int i=0;i<mm1;i++)
         Z[(P[i])+(P[i+1]<<2)]=0;
@@ -30,7 +30,7 @@ int QS[256];
             s+=mm1;
         if(*(uint16_t*)(s-mm2)==p) {   // occurrence check;
             for (r = check_start; r < m && s[r-mm2] == P[r]; r++);
-            if (r == m  && s<stop-3)
+            if (r == m)
                 count++;
         }
         s+=QS[*(s+2)];
