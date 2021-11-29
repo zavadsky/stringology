@@ -19,7 +19,7 @@ int QS[256];
         Z[(P[i])+(P[i+1]<<2)]=0;
 
    // Search
-   s = T+m-3;       //current position
+   s = T+m-2;       //current position
    stop = T+n-1;
    count = 0;
    memcpy(T+n,P,m);
