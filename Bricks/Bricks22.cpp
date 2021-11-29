@@ -14,7 +14,7 @@ int QS[256];
         QS[i]=mp1;
     for(int i=0;i<m;i++)
         QS[P[i]]=m-i;
-    uint16_t p=*(uint16_t*)P;    // pattern in CPU register
+    uint16_t p=*(uint16_t*)P;
     for (int i = 0; i < _2_power_k; i++)
 		Z[i] = 1;
     for(int i=0;i<mm1;i++)
