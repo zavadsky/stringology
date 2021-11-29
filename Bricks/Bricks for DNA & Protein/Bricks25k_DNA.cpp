@@ -6,7 +6,6 @@ int Bricks25_DNA(unsigned char *P, int m, unsigned char *T, int n,int k=14) {
     int QS[256];
     if(m<=5)
         return -1;
-    QueryPerformanceCounter(&start);
 
     //Preprocessing
     for(int i=0;i<256;i++)				        // QS shift table
@@ -34,7 +33,5 @@ int Bricks25_DNA(unsigned char *P, int m, unsigned char *T, int n,int k=14) {
         }
         s+=QS[*(s+5)];
     }
-    QueryPerformanceCounter(&_end);  // time end point, global LARGE_INTEGER _end
-	u = (double)(_end.QuadPart - start.QuadPart) * 10000 / freq.QuadPart; //algorithms' time in milliseconds, double u
 	return count;
 }
