@@ -1,4 +1,4 @@
-// Zk search algorithm with 3 sliding windows Zk-Byte-w3
+// Zk search algorithm with 3 sliding windows Z-Byte(k)-w3 (k-bit mask + 3 sliding windows)
 // This is the hybrid of Alg. 3 (left-to-right search) and Alg. 5 (sliding windows)
 // x - pattern, m - pattern length, y - text, n>=4m - text length,  k - number of significant bits in 2-byte read
 int Zk_byte_w3(unsigned char *x, const int m, unsigned char *y, int n,int k=13) {
