@@ -14,7 +14,7 @@ unsigned char *Z=(unsigned char *)calloc(_2_power_k_2,sizeof(unsigned char));
         QS[P[i]]=m-i;
     uint32_t p=*(uint32_t*)P;
     for (int i = 0; i < _2_power_k; i++)
-		Z[i] = 1;
+	Z[i] = 1;
     for(int i=0;i<mm2;i++)
         Z[(P[i]+(P[i+1]<<4)+(P[i+2]<<8))&mask]=0;
 
