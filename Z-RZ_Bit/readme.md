@@ -1,1 +1,1 @@
-RZk_bit_2w - The reverse Z-bit algorithm with k-bit read and 2 sliding windows, for search in a bitstream.
+RZk_bit_2w - The reverse Z-bit algorithm with k-bit read and 2 sliding windows, for search in a bitstream (Alg. 6 - Alg. 8).
