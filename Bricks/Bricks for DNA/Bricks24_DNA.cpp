@@ -1,4 +1,4 @@
-int Bricks_24_16_DNA(unsigned char *P, int m, unsigned char *T, int n) {
+int Bricks_24_DNA(unsigned char *P, int m, unsigned char *T, int n) {
     int mp1=m+1, mm1=m-1, mm2=m-2, mm3=m-3, mm4=m-4, m2=m*2, r, count = 0;
     const unsigned int _2_power_k=(1<<16),mask=_2_power_k-1;
     unsigned char *Z=(unsigned char *)calloc(_2_power_k,sizeof(unsigned char));
