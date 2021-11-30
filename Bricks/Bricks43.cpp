@@ -1,4 +1,4 @@
-int Bricks43_16(unsigned char *P, int m, unsigned char *T, int n) {
+int Bricks43(unsigned char *P, int m, unsigned char *T, int n) {
     int mp1=m+1, mm1=m-1, mm2=m-2, mm3=m-3, mm4=m-4, m2=m*2, r, count = 0;
 	  const unsigned int k=16, _2_power_k=(1<<k);
     unsigned char *Z=(unsigned char *)calloc(_2_power_k,sizeof(unsigned char));
