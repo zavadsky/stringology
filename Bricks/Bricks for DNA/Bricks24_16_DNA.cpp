@@ -4,9 +4,8 @@ int Bricks_24_16_DNA(unsigned char *P, int m, unsigned char *T, int n) {
     unsigned char *Z=(unsigned char *)calloc(_2_power_k,sizeof(unsigned char));
     unsigned char *s, *stop;
     int QS[256];
-
-    if(m<=3)
-        return -1;
+    
+    if(m<=3) return -1;
 
     //Preprocessing
     for(int i=0;i<256;i++)				        // QS shift table
@@ -15,13 +14,13 @@ int Bricks_24_16_DNA(unsigned char *P, int m, unsigned char *T, int n) {
         QS[P[i]]=m-i;
     uint32_t p=*(uint32_t*)P;
     for (int i = 0; i < _2_power_k; i++)
-		Z[i] = 1;
+	Z[i] = 1;
     for(int i=0;i<mm3;i++)
         Z[((P[i]>>1)+(P[i+1]<<1)+(P[i+2]<<3)+(P[i+3]<<5))]=0;
 
    // Search
-   s = T+m-3;       //current position
-   stop = T+n;
+   s = T+m-4;       //current position
+   stop = T+n-3;
    count = 0;
    memcpy(T+n,P,m);
    while(s<stop) {
@@ -29,10 +28,10 @@ int Bricks_24_16_DNA(unsigned char *P, int m, unsigned char *T, int n) {
             s+=mm3;
         if(*(uint32_t*)(s-mm4)==p) {   // occurrence check;
             for (r = 4; r < m && s[r-mm4] == P[r]; r++);
-            if (r == m  && s<stop-3)
+            if (r == m  && s<stop)
                 count++;
         }
         s+=QS[*(s+4)];
     }
-	return count;
+    return count;
 }
